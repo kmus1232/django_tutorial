@@ -1,0 +1,18 @@
+<h3><a href="{% url 'polls:index' %}">HOME</a></h3>
+
+{% if question %}
+<h1>{{question.question_text}}</h1>
+<h3>투표 결과 - {{most_voted_choice.choice_text}}</h3>
+
+{% for choice in question.choice_set.all %}
+<div>
+  <strong>{{choice.choice_text}}</strong>
+  <br />
+  투표수 : {{choice.votes}}
+  <br /><br />
+</div>
+{% endfor %}
+
+<a href="{% url 'polls:question_detail' question.id %}">돌아가기</a>
+
+{% endif %}
