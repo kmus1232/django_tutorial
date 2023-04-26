@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'rest_framework', # rest_framework 추가
+    'rest_framework', # rest_framework 추가
     'polls.apps.PollsConfig', # polls app 추가
     'django.contrib.admin',
     'django.contrib.auth',

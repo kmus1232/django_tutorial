@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('polls/', include('polls.urls')), # polls로 들어오면 그 뒤는 polls.urls로 처리하라는 의미
+    path('rest/', include('polls_api.urls')),
 ]
