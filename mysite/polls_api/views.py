@@ -4,16 +4,16 @@ from polls_api.serializers import QuestionSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework.views import APIView
 
 
-@api_view(["GET", "POST"])
-def question_list(request):
-    if request.method == "GET":
-        questions = Question.objects.all()
-        serializer = QuestionSerializer(questions, many=True)
+class QuestionList(APIView):
+    def get(self, request):
+        question = Question.objects.all()
+        serializer = QuestionSerializer(question, many=True)
         return Response(serializer.data)
 
-    if request.method == "POST":
+    def post(self, request):
         serializer = QuestionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -22,15 +22,17 @@ def question_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET", "PUT", "DELETE"])
-def question_detail(request, id):
-    question = get_object_or_404(Question, pk=id)
+class QuestionDetail(APIView):
+    def get_object(self, id):
+        return get_object_or_404(Question, id=id)
 
-    if request.method == "GET":
+    def get(self, request, id):
+        question = self.get_object(id)
         serializer = QuestionSerializer(question)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    if request.method == "PUT":
+    def put(self, request, id):
+        question = self.get_object(id)
         serializer = QuestionSerializer(question, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -38,6 +40,7 @@ def question_detail(request, id):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    if request.method == "DELETE":
+    def delete(self, request, id):
+        question = self.get_object(id)
         question.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
