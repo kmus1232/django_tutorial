@@ -5,10 +5,11 @@ from django.contrib.auth.password_validation import validate_password
 
 
 class QuestionSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Question
         # fields = "__all__"
-        fields = ["id", "question_text", "pub_date"]
+        fields = ["id", "question_text", "pub_date", 'owner']
         
         
 class UserSerializer(serializers.ModelSerializer):
