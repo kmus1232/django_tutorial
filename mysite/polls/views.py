@@ -3,6 +3,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.db.models import F
+from django.views import generic
+from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
 
 
 def index(request):
@@ -46,3 +49,8 @@ def result(request, question_id):
         "most_voted_choice": most_voted_choice,
     }
     return render(request, 'polls/result.html', context)
+
+class SignupView(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('user_list') # polls_api.views의 user_list로 보낸다.
+    template_name = 'registration/signup.html'
