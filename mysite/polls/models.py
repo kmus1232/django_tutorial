@@ -7,6 +7,7 @@ from django.contrib import admin
 class Question(models.Model):
     question_text = models.CharField(max_length=200, verbose_name="질문")
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name="생성일")
+    owner = models.ForeignKey('auth.User', related_name='questions', on_delete=models.CASCADE, null=True)
     # auto_now : 객체가 변경될 때마다 현재 시간으로 자동으로 저장
     # auto_now_add : 객체가 생성될 때만 현재 시간으로 자동으로 저장
 
